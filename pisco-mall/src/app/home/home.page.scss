@@ -1,0 +1,34 @@
+ion-content {
+  background: #e2e2e2;
+  .custom-container{
+    width: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.custom-header{
+  width: 100%;
+  padding: 1.5vh;
+  height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  & > span{
+    font-size: 1.2em;
+  }
+  .image-avatar-container{
+    border-radius: 50%;
+    height: 7vh;
+    width: 7vh;
+    overflow: hidden;
+    margin-right: 2em;
+    background-image: url("../../assets/images/avatar1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}

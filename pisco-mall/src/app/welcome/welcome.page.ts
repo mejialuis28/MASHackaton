@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-// import * as faceapi from 'face-api.js';
+import * as faceapi from 'face-api.js';
 import { Platform, LoadingController } from '@ionic/angular';
 import { WelcomeService} from './welcome.service';
 import { AppService } from '../app.service';
@@ -30,37 +30,37 @@ export class WelcomePage implements OnInit {
     }
 
     ngOnInit() {
-        // this.video = document.getElementById('video');
-        // Promise.all([
-        //     faceapi.nets.tinyFaceDetector.loadFromUri('assets/models'),
-        //     faceapi.nets.faceLandmark68Net.loadFromUri('assets/models'),
-        //     faceapi.nets.faceRecognitionNet.loadFromUri('assets/models'),
-        //     faceapi.nets.faceExpressionNet.loadFromUri('assets/models'),
-        // ]).then(() => {
-        //     navigator.getUserMedia({video : {}},
-        //         stream => {
-        //             // @ts-ignore
-        //             return video.srcObject = stream;
-        //         },
-        //         err => console.log(err));
-        //     this.video.addEventListener('play', () => {
-        //         // @ts-ignore
-        //         const canvas = faceapi.createCanvasFromMedia(video);
-        //         document.body.append(canvas);
-        //         // @ts-ignore
-        //         const displaySize = {width: video.width, height: video.height};
-        //         faceapi.matchDimensions(canvas, displaySize);
-        //         setInterval(async () => {
-        //             // @ts-ignore
-        //             const detections = await faceapi.detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
-        //             const resizedDetections = faceapi.resizeResults(detections, displaySize);
-        //             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-        //             faceapi.draw.drawDetections(canvas, resizedDetections);
-        //             faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-        //             faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
-        //         }, 100);
-        //     });
-        // });
+        this.video = document.getElementById('video');
+        Promise.all([
+            faceapi.nets.tinyFaceDetector.loadFromUri('assets/models'),
+            faceapi.nets.faceLandmark68Net.loadFromUri('assets/models'),
+            faceapi.nets.faceRecognitionNet.loadFromUri('assets/models'),
+            faceapi.nets.faceExpressionNet.loadFromUri('assets/models'),
+        ]).then(() => {
+            navigator.getUserMedia({video : {}},
+                stream => {
+                    // @ts-ignore
+                    return video.srcObject = stream;
+                },
+                err => console.log(err));
+            this.video.addEventListener('play', () => {
+                // @ts-ignore
+                const canvas = faceapi.createCanvasFromMedia(video);
+                document.body.append(canvas);
+                // @ts-ignore
+                const displaySize = {width: video.width, height: video.height};
+                faceapi.matchDimensions(canvas, displaySize);
+                setInterval(async () => {
+                    // @ts-ignore
+                    const detections = await faceapi.detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
+                    const resizedDetections = faceapi.resizeResults(detections, displaySize);
+                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                    faceapi.draw.drawDetections(canvas, resizedDetections);
+                    faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+                    faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+                }, 100);
+            });
+        });
 
 
     }
@@ -93,6 +93,16 @@ export class WelcomePage implements OnInit {
 
         const img = document.createElement('img');
         img.src = canvas.toDataURL();
+
+        // Get the information from the API
+
+        this.welcomeService.recognizeFace(canvas.toDataURL()).subscribe(result => {
+            // this.userId = result.toString();
+            this.appService.setUser(result.toString());
+            this.router.navigate(['/home']);
+            // debugger;
+        });
+
         const outputdiv = document.getElementById('output');
         outputdiv.prepend(img);
     }

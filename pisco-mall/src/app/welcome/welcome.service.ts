@@ -8,6 +8,7 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class WelcomeService {
+  url = 'https://masrekognition.firebaseio.com/';
   url2 = 'http://cabegi1234-001-site1.dtempurl.com/api/rekognition';
   constructor(private http: HttpClient) { }
 

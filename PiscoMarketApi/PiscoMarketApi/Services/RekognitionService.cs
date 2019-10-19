@@ -6,6 +6,7 @@ using Amazon.Runtime.CredentialManagement;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using PiscoMarketApi.Models;
+using PiscoMarketApi.Utilities;
 using System;
 using System.IO;
 using System.Linq;
@@ -28,8 +29,11 @@ namespace PiscoMarketApi.Services
             try
             {
                 String collectionId = "PiscoMarketFaces";
-                              
-                var rekognitionClient = new AmazonRekognitionClient(configuration.awsAccessKey, configuration.awsAccessSecret, Amazon.RegionEndpoint.USEast2);
+
+                //Decrypt Keys
+                var key = "E546C8DF278CD5931069B522E695D4F2";
+
+                var rekognitionClient = new AmazonRekognitionClient(EncryptionUtilities.DecryptString(configuration.awsAccessKey, key), EncryptionUtilities.DecryptString(configuration.awsAccessSecret,key), Amazon.RegionEndpoint.USEast2);
 
                 var image = new Image()
                 {

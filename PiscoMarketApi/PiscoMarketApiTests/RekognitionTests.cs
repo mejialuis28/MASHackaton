@@ -23,7 +23,7 @@ namespace PiscoMarketApiTests
             var configurationSection = new Mock<IConfigurationSection>();
            
             var mockAwsConfiguration = new Mock<IOptions<AwsConfiguration>>();
-            mockAwsConfiguration.Setup(a => a.Value).Returns(new AwsConfiguration() { awsAccessKey = "AKIATSQVMY6VF3M7RIOP", awsAccessSecret = "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" });
+            mockAwsConfiguration.Setup(a => a.Value).Returns(new AwsConfiguration() { awsAccessKey = "VoVypAUN/NsenNmO6PLy73S9uyJ0BRU4R/1DdkNP8cWGNAQMaKVINuF6BqF6qhXx", awsAccessSecret = "1mMfRRkNOBBYMFw1jtcq05o2/p97KIVgUfDJ4m/jvkuEs5WJC8XL2G1J6PiSyFHZ6g+xicmAxTLA3AmCL2NoPg==" });
 
             RekognitionService service = new RekognitionService(mockAwsConfiguration.Object);
             

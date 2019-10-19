@@ -9,7 +9,7 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class WelcomeService {
   url = 'https://masrekognition.firebaseio.com/';
-  url2 = 'http://localhost:52447/api/rekognition';
+  url2 = 'http://cabegi1234-001-site1.dtempurl.com/api/rekognition';
   constructor(private http: HttpClient) { }
 
   recognizeFace(base64string:String) {    

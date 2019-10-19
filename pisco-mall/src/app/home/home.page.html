@@ -1,17 +1,24 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <div class="custom-header">
-      <div class="image-avatar-container"></div>
-      <span>Bienvenida, Laura</span>
+      <div class="image-avatar-container" [style.backgroundImage]="'url('+ userData.image +')'"></div>
+      <span>Welcome, {{userData.name}}</span>
       <div></div>
     </div>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="custom-container">
-    <span>Estos son algunos descuentos que tenemos para ti</span>
-  </div>
-  <div class="custom-card">
-    <span class="custom-card-title"></span>
+  <div class="custom-card" *ngFor="let item of userData.deals">
+    <ion-card>
+      <ion-card-header color="primary">
+        <ion-card-subtitle>{{item.category + ' ' + item.store}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <span>
+          {{item.name}}
+        </span>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../app.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,15 +8,20 @@ import { AppService } from '../app.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  public products = null;
-  constructor(public appService: AppService) { }
+  public userData = {
+      name : null,
+      image : null,
+      deals : []
+  };
+  constructor(public appService: AppService,
+              private router: Router) { }
 
-  ngOnInit() {
-    this.appService.getUser().subscribe(val => {
-        console.log('val');
-        console.log(val);
-        this.products = val;
-        console.log('val');
+  ionViewWillEnter() {
+    this.appService.getUser().subscribe((val: any) => {
+        if (!val[1] || !val[1].name) {
+            return this.router.navigate(['/']);
+        }
+        this.userData = val['1'];
     }, error => {});
   }
 

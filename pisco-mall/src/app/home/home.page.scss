@@ -18,7 +18,8 @@ ion-content {
   align-items: center;
   justify-content: flex-start;
   & > span{
-    font-size: 1.2em;
+    font-size: 1.3em;
+    font-weight: bold;
   }
   .image-avatar-container{
     border-radius: 50%;
@@ -26,7 +27,6 @@ ion-content {
     width: 7vh;
     overflow: hidden;
     margin-right: 2em;
-    background-image: url("../../assets/images/avatar1.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

@@ -64,8 +64,8 @@ export class WelcomePage implements OnInit {
                     if (detections.some(val => val.expressions.happy && val.expressions.happy >= 0.5)) {
                         if (control) { return; }
                         control = true;
-                        clearInterval(interval);
                         this.captureImage();
+                        clearInterval(interval);
                     }
                 }, 100);
             });
@@ -94,6 +94,7 @@ export class WelcomePage implements OnInit {
     captureImage() {
         // debugger;
         const scale = 0.25;
+        // mediaStream.stop();
         const canvas = document.createElement('canvas');
         canvas.width = this.video.videoWidth * scale;
         canvas.height = this.video.videoHeight * scale;

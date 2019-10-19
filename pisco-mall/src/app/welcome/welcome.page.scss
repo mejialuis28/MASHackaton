@@ -47,7 +47,15 @@ ion-content{
 }
 .video-container{
   min-width: 100%;
+  display:flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
+  video{
+    border-radius: 5%;
+
+
+  }
   canvas{
     position:absolute;
     z-index: 1000;

@@ -22,39 +22,37 @@ export class WelcomePage implements OnInit {
     }
 
     ngOnInit() {
-        this.video = document.getElementById('video');
-        Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri('assets/models'),
-        faceapi.nets.faceLandmark68Net.loadFromUri('assets/models'),
-        faceapi.nets.faceRecognitionNet.loadFromUri('assets/models'),
-        faceapi.nets.faceExpressionNet.loadFromUri('assets/models'),
-        ]).then(() => {
-
-        navigator.getUserMedia({video : {}},
-            stream => {
-                // @ts-ignore
-                return video.srcObject = stream;
-            },
-            err => console.log(err));
-        this.video.addEventListener('play', () => {
-            // @ts-ignore
-            const canvas = faceapi.createCanvasFromMedia(video);
-            document.body.append(canvas);
-            // @ts-ignore
-            const displaySize = {width: video.width, height: video.height};
-            faceapi.matchDimensions(canvas, displaySize);
-            setInterval(async () => {
-            // @ts-ignore
-            const detections =
-        await faceapi.detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
-            const resizedDetections = faceapi.resizeResults(detections, displaySize);
-            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-            faceapi.draw.drawDetections(canvas, resizedDetections);
-            faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-            faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
-            }, 100);
-        });
-        });
+        // this.video = document.getElementById('video');
+        // Promise.all([
+        //     faceapi.nets.tinyFaceDetector.loadFromUri('assets/models'),
+        //     faceapi.nets.faceLandmark68Net.loadFromUri('assets/models'),
+        //     faceapi.nets.faceRecognitionNet.loadFromUri('assets/models'),
+        //     faceapi.nets.faceExpressionNet.loadFromUri('assets/models'),
+        // ]).then(() => {
+        //     navigator.getUserMedia({video : {}},
+        //         stream => {
+        //             // @ts-ignore
+        //             return video.srcObject = stream;
+        //         },
+        //         err => console.log(err));
+        //     this.video.addEventListener('play', () => {
+        //         // @ts-ignore
+        //         const canvas = faceapi.createCanvasFromMedia(video);
+        //         document.body.append(canvas);
+        //         // @ts-ignore
+        //         const displaySize = {width: video.width, height: video.height};
+        //         faceapi.matchDimensions(canvas, displaySize);
+        //         setInterval(async () => {
+        //             // @ts-ignore
+        //             const detections = await faceapi.detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
+        //             const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        //             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+        //             faceapi.draw.drawDetections(canvas, resizedDetections);
+        //             faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+        //             faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+        //         }, 100);
+        //     });
+        // });
 
 
     }
@@ -76,19 +74,33 @@ export class WelcomePage implements OnInit {
     }
 
     captureImage() {
-        debugger;
+        // debugger;
         const scale = 0.25;
         const canvas = document.createElement('canvas');
         canvas.width = this.video.videoWidth * scale;
         canvas.height = this.video.videoHeight * scale;
         canvas.getContext('2d')
-              .drawImage(this.video, 0, 0, canvas.width, canvas.height);
+            .drawImage(this.video, 0, 0, canvas.width, canvas.height);
 
         const img = document.createElement('img');
         img.src = canvas.toDataURL();
         const outputdiv = document.getElementById('output');
         outputdiv.prepend(img);
-      }
+    }
+
+    toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    })
+
+    async captureImageFromPc(fileInput: any) {
+        if (fileInput.target.files && fileInput.target.files[0]) {
+            console.log(await this.toBase64(fileInput.target.files[0]));
+        }
+    }
+
 
     async submitPhoto() {
         const loading = await this.loadingController.create({

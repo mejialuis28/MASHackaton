@@ -1,10 +1,10 @@
 <ion-content>
-  <video
-          width="720"
-          height="560"
-          autoplay
-          muted
-          id="video"></video>
+  <!--<video-->
+          <!--width="720"-->
+          <!--height="560"-->
+          <!--autoplay-->
+          <!--muted-->
+          <!--id="video"></video>-->
 
   <div class="background-container">
     <div class="background-container-shadow">
@@ -21,22 +21,14 @@
           *ngIf="isPlatform === 'dom'"
           id="raised-button-file"
           style="display:none"
+          (change)="captureImageFromPc($event)"
           type="file"/>
         <label for="raised-button-file">
-          <ion-fab-button  color="primary" (click)="takePicture()">
-            <ion-icon  name="camera" (click)="captureImage()"></ion-icon>
+          <ion-fab-button  color="primary">
+            <ion-icon  name="camera"></ion-icon>
           </ion-fab-button>
-
         </label>
-        <video
-            width="720"
-            height="560"
-            autoplay
-            muted
-            id="video">
-          </video>
-
-          <div id="output"></div>
+        <div id="output"></div>
 
       </div>
     </div>

@@ -1,5 +1,7 @@
 {
   "name": "pisco-mall",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

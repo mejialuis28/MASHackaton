@@ -6,9 +6,15 @@ import { map } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
 })
-export class WelcomeService {
+export class AppService {
     url = 'https://masrekognition.firebaseio.com/';
+    private userId = null;
     constructor(private http: HttpClient) { }
+
+    setUser(userId: string) {
+        if (!userId) { return; }
+        this.userId = userId;
+    }
 
     getUser(id) {
         return this.http.get(`${this.url}users.json?equalTo=${id}&orderBy="userId"`);

@@ -1,19 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import * as faceapi from 'face-api.js';
+// import * as faceapi from 'face-api.js';
 import { Platform, LoadingController } from '@ionic/angular';
+import { WelcomeService} from './welcome.service';
+import { AppService } from '../app.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-welcome',
     templateUrl: './welcome.page.html',
     styleUrls: ['./welcome.page.scss'],
+    providers : [WelcomeService]
 })
 export class WelcomePage implements OnInit {
     private currentImage = '';
     private isPlatform = '';
+    private photo = '';
     private video: any;
     constructor(private camera: Camera,
                 public loadingController: LoadingController,
+                public welcomeService: WelcomeService,
+                private router: Router,
+                public appService: AppService,
                 public platform: Platform) {
         platform.ready().then((source) => {
             console.log('platform source ' + source);
@@ -66,7 +74,8 @@ export class WelcomePage implements OnInit {
         };
 
         this.camera.getPicture(options).then((imageData) => {
-            this.currentImage = 'data:image/png;base64,' + imageData;
+            this.currentImage = imageData;
+            this.submitPhoto();
         }, (err) => {
             // Handle error
             console.log('Camera issue:' + err);
@@ -97,7 +106,10 @@ export class WelcomePage implements OnInit {
 
     async captureImageFromPc(fileInput: any) {
         if (fileInput.target.files && fileInput.target.files[0]) {
-            console.log(await this.toBase64(fileInput.target.files[0]));
+            const image = await this.toBase64(fileInput.target.files[0]);
+            console.log(image);
+            this.photo = image.split('data:image/jpeg;base64,')[1];
+            this.submitPhoto();
         }
     }
 
@@ -107,6 +119,12 @@ export class WelcomePage implements OnInit {
             message: 'Enviando Foto',
         });
         await loading.present();
+        this.welcomeService.recognizeFace(this.photo).subscribe(async (val: string) => {
+            if (!val) { return; }
+            this.appService.setUser(val);
+            this.router.navigate(['/home']);
+            await loading.dismiss();
+        }, err => {});
     }
 
 }

@@ -8,21 +8,15 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class WelcomeService {
-  url = 'https://masrekognition.firebaseio.com/';
-  url2 = 'http://localhost:52447/api/rekognition';
+  url2 = 'http://cabegi1234-001-site1.dtempurl.com/api/rekognition';
   constructor(private http: HttpClient) { }
 
-  recognizeFace(base64string:String) {    
-    debugger;
+  recognizeFace(base64string: string) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':  'application/json'
       })
     };
-    return this.http.post(`${this.url2}`,[base64string]);
-  }
-
-  getUser(id) {
-    return this.http.get(`${this.url}users.json?equalTo=${id}&orderBy="userId"`);
+    return this.http.post(`${this.url2}`, [base64string]);
   }
 }

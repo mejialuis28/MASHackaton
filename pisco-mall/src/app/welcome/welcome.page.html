@@ -1,9 +1,15 @@
 <ion-content>
-  
-
   <div class="background-container">
     <div class="background-container-shadow">
       <span class="custom-title">Pisco</span>
+      <div class="video-container" id="video-container">
+        <video
+                width="720"
+                height="560"
+                autoplay
+                muted
+                id="video"></video>
+      </div>
       <div class="buttons-container">
         <!-- <ion-fab-button
                 color="primary"
@@ -24,14 +30,6 @@
             <ion-icon  name="camera" (click)="captureImage()"></ion-icon>
           </ion-fab-button>
         </label>
-        <video
-          width="720"
-          height="560"
-          autoplay
-          muted
-          id="video"></video>
-        <div id="output"></div>
-
       </div>
     </div>
   </div>

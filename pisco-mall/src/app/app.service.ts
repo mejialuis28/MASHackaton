@@ -16,7 +16,7 @@ export class AppService {
         this.userId = userId;
     }
 
-    getUser(id) {
-        return this.http.get(`${this.url}users.json?equalTo=${id}&orderBy="userId"`);
+    getUser() {
+        return this.http.get(`${this.url}users.json?equalTo=${this.userId}&orderBy="userId"`);
     }
 }

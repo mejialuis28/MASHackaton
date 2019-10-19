@@ -31,6 +31,7 @@ export class WelcomePage implements OnInit {
 
     ngOnInit() {
         this.video = document.getElementById('video');
+        const videoContainer = document.getElementById('video-container');
         Promise.all([
             faceapi.nets.tinyFaceDetector.loadFromUri('assets/models'),
             faceapi.nets.faceLandmark68Net.loadFromUri('assets/models'),
@@ -46,18 +47,26 @@ export class WelcomePage implements OnInit {
             this.video.addEventListener('play', () => {
                 // @ts-ignore
                 const canvas = faceapi.createCanvasFromMedia(video);
-                document.body.append(canvas);
+                videoContainer.append(canvas);
                 // @ts-ignore
                 const displaySize = {width: video.width, height: video.height};
                 faceapi.matchDimensions(canvas, displaySize);
-                setInterval(async () => {
+                let control = false;
+                const interval = setInterval(async () => {
                     // @ts-ignore
                     const detections = await faceapi.detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
                     const resizedDetections = faceapi.resizeResults(detections, displaySize);
+                    console.log(detections);
                     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
                     faceapi.draw.drawDetections(canvas, resizedDetections);
                     faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
                     faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+                    if (detections.some(val => val.expressions.happy && val.expressions.happy >= 0.5)) {
+                        if (control) { return; }
+                        control = true;
+                        clearInterval(interval);
+                        this.captureImage();
+                    }
                 }, 100);
             });
         });
@@ -103,8 +112,8 @@ export class WelcomePage implements OnInit {
             // debugger;
         });
 
-        const outputdiv = document.getElementById('output');
-        outputdiv.prepend(img);
+        // const outputdiv = document.getElementById('output');
+        // outputdiv.prepend(img);
     }
 
     toBase64 = file => new Promise((resolve, reject) => {

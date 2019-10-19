@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using PiscoMarketApi.Models;
 using PiscoMarketApi.Services;
 
 namespace PiscoMarketApi
@@ -28,6 +29,7 @@ namespace PiscoMarketApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddTransient<IRekognitionService, RekognitionService>();
+            services.Configure<AwsConfiguration>(Configuration.GetSection(nameof(AwsConfiguration)));            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

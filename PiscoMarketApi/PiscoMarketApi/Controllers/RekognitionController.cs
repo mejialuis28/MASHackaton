@@ -18,6 +18,14 @@ namespace PiscoMarketApi.Controllers
             _rekognitionService = rekognition;
         }
 
+        [HttpGet]
+        public async Task<string> Get()
+        {
+            //Get first image string.
+            
+            return "not recognized";
+        }
+
         // POST api/<controller>
         // Validate New FAce
         [HttpPost]

@@ -30,7 +30,10 @@ export class WelcomePage implements OnInit {
         });
     }
 
-    ngOnInit() {
+    async ngOnInit() {
+        const loading = await this.loadingController.create({});
+        await loading.present();
+        let loadingControl = false;
         this.video = document.getElementById('video');
         const videoContainer = document.getElementById('video-container');
         Promise.all([
@@ -61,18 +64,21 @@ export class WelcomePage implements OnInit {
                     canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
                     faceapi.draw.drawDetections(canvas, resizedDetections);
                     faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+                    // @ts-ignore
                     faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+                    if (!loadingControl) {
+                        loadingControl = true;
+                        loading.dismiss();
+                    }
                     if (detections.some(val => val.expressions.happy && val.expressions.happy >= 0.5)) {
                         if (control) { return; }
                         control = true;
-                        this.captureImage();
                         clearInterval(interval);
+                        this.captureImage();
                     }
                 }, 100);
             });
         });
-
-
     }
 
     takePicture() {
@@ -110,6 +116,9 @@ export class WelcomePage implements OnInit {
         this.welcomeService.recognizeFace(canvas.toDataURL()).subscribe(result => {
             // this.userId = result.toString();
             this.appService.setUser(result.toString());
+            console.log(this.video);
+            this.video.pause();
+            this.video.src = '';
             this.router.navigate(['/home']);
             // debugger;
         });
@@ -143,6 +152,7 @@ export class WelcomePage implements OnInit {
         this.welcomeService.recognizeFace(this.photo).subscribe(async (val: string) => {
             if (!val) { return; }
             this.appService.setUser(val);
+            console.log(this.video);
             this.router.navigate(['/home']);
             await loading.dismiss();
         }, err => {});

@@ -35,7 +35,7 @@ namespace PiscoMarketApi.Controllers
             if(imagesArray!=null)
             {
                 string base64String = imagesArray[0];
-                byte[] bytes = Convert.FromBase64String(base64String.Replace("data:image/png;base64,", ""));
+                byte[] bytes = Convert.FromBase64String(base64String.Replace("data:image/png;base64,", "").Replace("data:image/jpeg;base64,", ""));
                 return await _rekognitionService.Compare(bytes);
             }
             return "not recognized";

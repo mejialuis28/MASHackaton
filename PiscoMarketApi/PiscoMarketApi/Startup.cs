@@ -29,7 +29,11 @@ namespace PiscoMarketApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddTransient<IRekognitionService, RekognitionService>();
-            services.Configure<AwsConfiguration>(Configuration.GetSection(nameof(AwsConfiguration)));            
+            services.Configure<AwsConfiguration>(Configuration.GetSection(nameof(AwsConfiguration)));
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +49,9 @@ namespace PiscoMarketApi
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials());
             app.UseMvc();
         }
     }

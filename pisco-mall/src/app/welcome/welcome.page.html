@@ -11,9 +11,24 @@
     <div class="background-container-shadow">
       <span class="custom-title">Pisco</span>
       <div class="buttons-container">
-        <ion-fab-button  color="primary" (click)="takePicture()">
+        <ion-fab-button
+                color="primary"
+                *ngIf="isPlatform !== 'dom'"
+                (click)="takePicture()">
           <ion-icon  name="camera"></ion-icon>
         </ion-fab-button>
+        <input
+          accept="image/*"
+          *ngIf="isPlatform === 'dom'"
+          id="raised-button-file"
+          style="display:none"
+          type="file"/>
+        <label for="raised-button-file">
+          <ion-fab-button  color="primary">
+            <ion-icon  name="camera"></ion-icon>
+          </ion-fab-button>
+        </label>
+
       </div>
     </div>
   </div>

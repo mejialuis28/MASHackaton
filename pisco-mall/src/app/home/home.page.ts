@@ -18,10 +18,9 @@ export class HomePage {
 
   ionViewWillEnter() {
     this.appService.getUser().subscribe((val: any) => {
-        if (!val[1] || !val[1].name) {
-            return this.router.navigate(['/']);
-        }
-        this.userData = val['1'];
+        const keys = Object.keys(val);
+        if (!keys.length) {return this.router.navigate(['/']); }
+        this.userData = val[keys[0]];
     }, error => {});
   }
 

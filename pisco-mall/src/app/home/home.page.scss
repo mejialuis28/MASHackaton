@@ -22,6 +22,11 @@ ion-content {
     font-weight: bold;
   }
   .image-avatar-container{
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
     border-radius: 50%;
     height: 7vh;
     width: 7vh;

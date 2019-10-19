@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
     styleUrls: ['./welcome.page.scss'],
     providers : [WelcomeService]
 })
+
 export class WelcomePage implements OnInit {
     private currentImage = '';
     private isPlatform = '';
